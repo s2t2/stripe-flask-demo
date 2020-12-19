@@ -6,12 +6,12 @@ home_routes = Blueprint("home_routes", __name__)
 
 @home_routes.route("/")
 def index():
-    print("HOME PAGE...")
+    print("HOME PAGE")
     return render_template("home.html")
 
 @home_routes.route("/about")
 def about():
-    print("ABOUT PAGE...")
+    print("ABOUT PAGE")
     return render_template("about.html")
 
 #@home_routes.route("/users/new")

@@ -6,7 +6,9 @@ import stripe
 
 load_dotenv()
 
-STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", default="OOPS")
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", default="PK_OOPS") # client-side
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", default="SK_OOPS") # server-side
+
 stripe.api_key = STRIPE_SECRET_KEY
 
 APP_DOMAIN = os.getenv("APP_DOMAIN", default="http://localhost:5000")
@@ -18,7 +20,7 @@ stripe_routes = Blueprint("stripe_routes", __name__)
 @stripe_routes.route("/stripe/checkout-session/new")
 def checkout_page():
     print("CHECKOUT PAGE")
-    return render_template("stripe_checkout.html")
+    return render_template("stripe_checkout.html", stripe_pk=STRIPE_PUBLIC_KEY)
 
 @stripe_routes.route("/stripe/checkout-session/create", methods=["POST"])
 def create_checkout_session():

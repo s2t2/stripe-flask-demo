@@ -107,19 +107,13 @@
 
   <script type="text/javascript">
 
-    // Create an instance of the Stripe object with your publishable API key
-    // TODO: read from env var
-
-    var STRIPE_PK = "pk_test_51HzrtMJvFFw91GnPemGuJ6ScN5p7c0zbxXwOgwhM6X1zbvUX1c7tVo0FXfSSxHioPNhr1PvQLbAy04WaRdeHTEaA00bqUsPXx4"
-    console.log(STRIPE_PK)
-
+    var STRIPE_PK = '{{ stripe_pk }}' // the python var sent from the flask route
     var stripe = Stripe(STRIPE_PK)
+    //console.log("STRIPE PK:", STRIPE_PK)
+
     var checkoutButton = document.getElementById("checkout-button")
 
-    //function handleClick(){
-    //}
-
-    checkoutButton.addEventListener("click", function () {
+    checkoutButton.addEventListener("click", {
         fetch("/stripe/checkout-session/create", {method: "POST"})
             .then(function(response) { return response.json() })
             .then(function(session) {
