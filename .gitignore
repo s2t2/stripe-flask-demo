@@ -1,0 +1,9 @@
+
+# ignore artifacts of running python apps:
+__pycache__
+
+# ignore hidden files on mac:
+.DS_Store
+
+# ignore secret env vars:
+.env
