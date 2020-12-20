@@ -21,12 +21,9 @@ stripe.api_key = STRIPE_SECRET_KEY
 def checkout_page():
     print("CHECKOUT PAGE")
     EXAMPLE_PRODUCT = {
-        "name": "My Product",
+        "name": "My Book",
         "price_usd": "$129.00",
-        "img":{
-            "url": "https://i.imgur.com/EHyR2nP.png",
-            "alt": "The cover of a book called 'Stubborn Attachments'"
-        }
+        "img":{"url": "https://i.imgur.com/EHyR2nP.png", "alt": "The cover of my book"}
     } # todo: fetch product(s) from stripe
     return render_template("stripe_checkout.html", stripe_pk=STRIPE_PUBLIC_KEY, product=EXAMPLE_PRODUCT)
 
@@ -42,7 +39,7 @@ def create_checkout_session():
             "price_data": {
                 "currency": "usd",
                 "unit_amount": 129_00,
-                "product_data": {"name": "My Product", "images": ["https://i.imgur.com/EHyR2nP.png"]},
+                "product_data": {"name": "My Book", "images": ["https://i.imgur.com/EHyR2nP.png"]},
             },
             "quantity": 1
         }
