@@ -42,7 +42,7 @@ def create_checkout_session():
             "price_data": {
                 "currency": "usd",
                 "unit_amount": 129_00,
-                "product_data": {"name": "My Book", "images": ["https://i.imgur.com/EHyR2nP.png"]},
+                "product_data": {"name": "My Product", "images": ["https://i.imgur.com/EHyR2nP.png"]},
             },
             "quantity": 1
         }
