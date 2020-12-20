@@ -2,7 +2,9 @@
 
 ## Stripe API
 
+  + https://dashboard.stripe.com
   + https://dashboard.stripe.com/test/apikeys
+  + https://stripe.com/docs/checkout/integration-builder
   + https://stripe.com/docs/api/
   + https://stripe.com/docs/testing#cards
 
