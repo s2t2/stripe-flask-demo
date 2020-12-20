@@ -91,29 +91,30 @@
     </style>
   </head>
   <body>
+
     <section>
       <div class="product">
-        <img src="https://i.imgur.com/EHyR2nP.png" alt="The cover of Stubborn Attachments"/>
+        <img src="{{ product['img']['url'] }}" alt="{{ product['img']['alt'] }}"/>
 
         <div class="description">
-          <h3>Stubborn Attachments</h3>
-          <h5>$20.00</h5>
+          <h3>{{ product["name"] }}</h3>
+          <h5>{{ product["price_usd"] }}</h5>
         </div>
       </div>
 
       <button id="checkout-button">Checkout</button>
     </section>
-  </body>
 
+  </body>
   <script type="text/javascript">
 
     var STRIPE_PK = '{{ stripe_pk }}' // the python var sent from the flask route
     var stripe = Stripe(STRIPE_PK)
-    //console.log("STRIPE PK:", STRIPE_PK)
+    console.log("STRIPE PK:", STRIPE_PK)
 
     var checkoutButton = document.getElementById("checkout-button")
 
-    checkoutButton.addEventListener("click", {
+    checkoutButton.addEventListener("click", function () {
         fetch("/stripe/checkout-session/create", {method: "POST"})
             .then(function(response) { return response.json() })
             .then(function(session) {

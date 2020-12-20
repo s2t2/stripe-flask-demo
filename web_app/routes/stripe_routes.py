@@ -17,10 +17,19 @@ CANCEL_URL = f"{APP_DOMAIN}/stripe/callback/cancel"
 
 stripe_routes = Blueprint("stripe_routes", __name__)
 
+PRODUCT = {
+    "name": "My Product",
+    "price_usd": "$129.00",
+    "img":{
+        "url": "https://i.imgur.com/EHyR2nP.png",
+        "alt": "The cover of a book called 'Stubborn Attachments'"
+    }
+}
+
 @stripe_routes.route("/stripe/checkout-session/new")
 def checkout_page():
     print("CHECKOUT PAGE")
-    return render_template("stripe_checkout.html", stripe_pk=STRIPE_PUBLIC_KEY)
+    return render_template("stripe_checkout.html", stripe_pk=STRIPE_PUBLIC_KEY, product=PRODUCT)
 
 @stripe_routes.route("/stripe/checkout-session/create", methods=["POST"])
 def create_checkout_session():
