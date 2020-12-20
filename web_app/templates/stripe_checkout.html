@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>Buy cool new product</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <style>
@@ -108,7 +107,7 @@
   </body>
   <script type="text/javascript">
 
-    var STRIPE_PK = '{{ stripe_pk }}' // the python var sent from the flask route
+    var STRIPE_PK = '{{ stripe_pk }}' // python variable to JS string
     var stripe = Stripe(STRIPE_PK)
     console.log("STRIPE PK:", STRIPE_PK)
 
@@ -127,6 +126,7 @@
                 // error, you should display the localized error message to your
                 // customer using error.message.
                 if (result.error) {
+                    console.error(result.error.message)
                     alert(result.error.message)
                 }
             })

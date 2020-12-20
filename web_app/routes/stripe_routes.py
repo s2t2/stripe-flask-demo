@@ -4,37 +4,36 @@ from dotenv import load_dotenv
 from flask import Blueprint, render_template, flash, redirect, jsonify, request
 import stripe
 
+stripe_routes = Blueprint("stripe_routes", __name__)
+
 load_dotenv()
+
+APP_DOMAIN = os.getenv("APP_DOMAIN", default="http://localhost:5000")
+SUCCESS_URL = f"{APP_DOMAIN}/stripe/checkout-session/callback/success" # must match route defined below
+CANCEL_URL = f"{APP_DOMAIN}/stripe/checkout-session/callback/cancel" # must match route defined below
 
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", default="PK_OOPS") # client-side
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", default="SK_OOPS") # server-side
 
 stripe.api_key = STRIPE_SECRET_KEY
 
-APP_DOMAIN = os.getenv("APP_DOMAIN", default="http://localhost:5000")
-SUCCESS_URL = f"{APP_DOMAIN}/stripe/callback/success"
-CANCEL_URL = f"{APP_DOMAIN}/stripe/callback/cancel"
-
-stripe_routes = Blueprint("stripe_routes", __name__)
-
-PRODUCT = {
-    "name": "My Product",
-    "price_usd": "$129.00",
-    "img":{
-        "url": "https://i.imgur.com/EHyR2nP.png",
-        "alt": "The cover of a book called 'Stubborn Attachments'"
-    }
-}
-
 @stripe_routes.route("/stripe/checkout-session/new")
 def checkout_page():
     print("CHECKOUT PAGE")
-    return render_template("stripe_checkout.html", stripe_pk=STRIPE_PUBLIC_KEY, product=PRODUCT)
+    EXAMPLE_PRODUCT = {
+        "name": "My Product",
+        "price_usd": "$129.00",
+        "img":{
+            "url": "https://i.imgur.com/EHyR2nP.png",
+            "alt": "The cover of a book called 'Stubborn Attachments'"
+        }
+    } # todo: fetch product(s) from stripe
+    return render_template("stripe_checkout.html", stripe_pk=STRIPE_PUBLIC_KEY, product=EXAMPLE_PRODUCT)
 
 @stripe_routes.route("/stripe/checkout-session/create", methods=["POST"])
 def create_checkout_session():
     """Launches a new stripe payment page with product info and credit card form """
-    print("CREATE CHECKOUT SESSION")
+    print("CREATE CHECKOUT")
     #print("FORM DATA:", dict(request.form))
     #products = dict(request.form)
 
@@ -66,16 +65,16 @@ def create_checkout_session():
         print("ERR:", e)
         return jsonify(error=str(e)), 403
 
-@stripe_routes.route("/stripe/callback/success")
+@stripe_routes.route("/stripe/checkout-session/callback/success")
 def callback_success():
     """Triggers after the user successfully enters their card info on the checkout page """
-    print("CALLBACK: SUCCESS")
+    print("CHECKOUT SUCCESS")
     flash("Payment Received. Thanks!", "success")
     return redirect("/")
 
-@stripe_routes.route("/stripe/callback/cancel")
+@stripe_routes.route("/stripe/checkout-session/callback/cancel")
 def callback_cancel():
     """Triggers if the user gets to the stripe checkout and then presses the back button there (not the browser back button) """
-    print("CALLBACK: CANCEL")
-    flash("Payment Canceled. It's OK.", "warning")
+    print("CHECKOUT CANCELED")
+    flash("Payment Canceled. Are you sure?", "warning")
     return redirect("/")
