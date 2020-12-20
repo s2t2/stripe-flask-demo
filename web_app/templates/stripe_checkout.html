@@ -114,7 +114,7 @@
     var checkoutButton = document.getElementById("checkout-button")
 
     checkoutButton.addEventListener("click", function () {
-        fetch("/stripe/checkout-session/create", {method: "POST"})
+        fetch("/stripe/checkout", {method: "POST"})
             .then(function(response) { return response.json() })
             .then(function(session) {
                 console.log("SESSION:", session.id, session)

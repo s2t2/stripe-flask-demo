@@ -1,0 +1,62 @@
+
+
+
+{% extends "layout_bootstrap.html" %}
+{% set active_page = "products" %}
+
+{% block content %}
+
+    <h2>Products</h2>
+
+    <p>Select product(s), then click "checkout" to continue to payment.</p>
+
+    <div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="product-1" id="check-1">
+            <label class="form-check-label" for="check-1">Product 1</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="product-2" id="check-2">
+            <label class="form-check-label" for="check-2">Product 2</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="product-3" id="check-3">
+            <label class="form-check-label" for="check-3">Product 3</label>
+        </div>
+
+        <button id="checkout-button">Checkout</button>
+    </div>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+
+        var STRIPE_PK = '{{ stripe_pk }}' // python variable to JS string
+        var stripe = Stripe(STRIPE_PK)
+        console.log("STRIPE PK:", STRIPE_PK)
+
+        var checkoutButton = document.getElementById("checkout-button")
+
+        checkoutButton.addEventListener("click", function () {
+            fetch("/stripe/checkout", {method: "POST"})
+                .then(function(response) { return response.json() })
+                .then(function(session) {
+                    console.log("SESSION:", session.id, session)
+                    return stripe.redirectToCheckout({ sessionId: session.id })
+                })
+                .then(function(result) {
+                    console.log("RESULT:", result)
+                    // If redirectToCheckout fails due to a browser or network
+                    // error, you should display the localized error message to your
+                    // customer using error.message.
+                    if (result.error) {
+                        console.error(result.error.message)
+                        alert(result.error.message)
+                    }
+                })
+                .catch(function(error) { console.error("Error:", error) })
+        })
+
+    </script>
+
+{% endblock %}

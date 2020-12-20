@@ -27,10 +27,9 @@
     <!-- SITE NAVIGATION -->
     <!-- see: https://jinja.palletsprojects.com/en/2.11.x/tricks/ -->
     <!-- see: https://getbootstrap.com/docs/4.0/components/navbar/ -->
-    <!-- ('/users/new', 'new_user', 'Sign Up'), -->
     {% set nav_links = [
       ('/about', 'about', 'About'),
-      ('/stripe/checkout-session/new', 'checkout_page', 'Checkout')
+      ('/stripe/products', 'products', 'Products'),
     ] -%}
     {% set active_page = active_page|default('index') -%}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -65,7 +64,7 @@
       <!-- FOOTER -->
       <div id="footer">
         <hr>
-        &copy; Copyright 2021 [YOUR NAME HERE] |
+        &copy; Copyright 2021 MJ Rossetti |
         <a href="https://github.com/prof-rossetti/">source</a>
       </div>
     </div>
