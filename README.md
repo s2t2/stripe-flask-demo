@@ -23,7 +23,7 @@ Configure environment variables, including [Stripe API Key](https://dashboard.st
 ```sh
 # .env file contents
 
-STRIPE_PUBLIC_KEY="pk_test_______________" # for front-end JS
+STRIPE_PUBLIC_KEY="pk_test_______________"
 STRIPE_SECRET_KEY="sk_test_______________"
 ```
 
